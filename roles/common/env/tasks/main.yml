@@ -10,15 +10,19 @@
   copy:
     src: "{{ item }}"
     dest: "{{ item }}.bkp"
+    force: yes
   with_items:
       - ~/.bashrc
+      - ~/.zshrc
 
 - name: "Remove original file"
   file:
     path: "{{ item }}"
     state: absent
+  when: '"file-" not in item'
   with_items:
       - ~/.bashrc
+      - ~/.zshrc
 
 - name: "Symlink configuration files"
   file:
@@ -26,4 +30,5 @@
     dest: "{{ item.dest }}"
     state: link
   with_items:
-    - { src: '~/Public/configs/dotfiles/bash/.bashrc',    dest: '~/.bashrc' }
+    - { src: '~/Public/configs/dotfiles/bash/.bashrc',          dest: '~/.bashrc' }
+    - { src: '~/Public/configs/dotfiles/zsh/zshrc',             dest: '~/.zshrc' }
