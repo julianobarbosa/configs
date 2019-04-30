@@ -1,7 +1,33 @@
 - hosts: localhost
   connection: local
+  vars:
+    home: "/home/morais"
+    pyenv_root: "{{ home }}/.pyenv"
+
+    # Versions to install
+    pyenv_version: "v1.2.11"
+    pyenv_virtualenv_version: "v1.1.5"
+    pyenv_virtualenvwrapper_version: "v20140609"
+
+    # Latest Python versions
+    pyenv_python2_version: "2.7.16"
+    pyenv_python3_version: "3.7.3"
+
+    # Python versions to install
+    pyenv_python_versions:
+      - "{{ pyenv_python2_version }}"
+      - "{{ pyenv_python3_version }}"
+
+    # Set global pyenv version
+    pyenv_global: "{{ pyenv_python3_version }}"
+
+    # Optionally, install vertualenvwrapper plugin for pyenv
+    pyenv_virtualenvwrapper: yes
+    pyenv_virtualenvwrapper_home: "{{ ansible_env.HOME }}/.virtualenvs"
+
   vars_prompt:
     - name: "email_pass"
       prompt: "Email password? (For mutt)"
   roles:
       - common/env
+      - common/packages
