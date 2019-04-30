@@ -60,21 +60,31 @@ if [ "$color_prompt" = yes ]; then
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
+unset color_prompt force_color_prompt
 
-#if [ -f `which powerline-daemon` ]; then
-  #powerline-daemon -q
-  #POWERLINE_BASH_CONTINUATION=1
-  #POWERLINE_BASH_SELECT=1
-  #. /usr/share/powerline/bindings/bash/powerline.sh
-#fi
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
 
-export TERM="screen-256color"
-export DISPLAY=:0
-export EDITRC=/etc/editrc
-export VISUAL=/usr/bin/vim
-export EDITOR=/usr/bin/vim
-export HISTCONTROL=ignoreboth
-export HISTSIZE=999999
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -90,40 +100,23 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-# . /usr/bin/virtualenvwrapper.sh
-
-alias v='nvim $1'
-alias vi='nvim $1'
-alias vim='vim $1'
-alias gv='nvim-qt $1'
-alias gvi='nvim-qt $1'
-alias gvim='nvim-qt $1'
-alias ta='tmux attach -t $1'
-alias tl='tmux list-session'
-alias tn='tmux new -s $USER'
-alias python=python3
-alias manage='python $VIRTUAL_ENV/../manage.py'
-
-# Git Aliases
-alias gs='git status '
-alias ga='git add '
-alias gb='git branch '
-alias gc='git commit'
-alias gd='git diff'
-alias go='git checkout '
-alias gk='gitk --all&'
-alias gx='gitx --all'
-
-alias got='git '
-alias get='git '
-
-alias start-script="wget -q -nv -O -  http://gist.github.com/raw/863014/script-skeleton.py | vim - -c 'set filetype=python'"
-
-if [ -f /etc/bash_completion.d/tma ]; then
-	. /etc/bash_completion.d/tma
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
 
-export PATH="/home/morais/.pyenv/bin:$PATH"
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+export JAVA_HOME="/opt/jre1.8.0_211"
+export PATH="$JAVA_HOME/bin:$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
