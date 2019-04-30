@@ -29,5 +29,7 @@
     - name: "email_pass"
       prompt: "Email password? (For mutt)"
   roles:
-      - common/env
-      - common/packages
+    - common/env
+    - common/packages
+    - common/venv
+    - common/pip

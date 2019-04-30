@@ -5,6 +5,7 @@
   with_items:
       - ~/.newsbeuter
       - ~/Public
+      - ~/.config/bin
 
 - name: "Make backup first"
   copy:
