@@ -1,0 +1,29 @@
+- name: "Create required directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+      - ~/.newsbeuter
+      - ~/Public
+
+- name: "Make backup first"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ item }}.bkp"
+  with_items:
+      - ~/.bashrc
+
+- name: "Remove original file"
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+      - ~/.bashrc
+
+- name: "Symlink configuration files"
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: '~/Public/configs/dotfiles/bash/.bashrc',    dest: '~/.bashrc' }

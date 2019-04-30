@@ -1,0 +1,7 @@
+- hosts: localhost
+  connection: local
+  vars_prompt:
+    - name: "email_pass"
+      prompt: "Email password? (For mutt)"
+  roles:
+      - common/env
