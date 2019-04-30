@@ -20,4 +20,3 @@ or
 This will clone all my favourite repos, install my dev packages and symlink all my vim stuff.
 
 Enjoy :)
-
