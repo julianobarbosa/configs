@@ -1,0 +1,4 @@
+- name: pyenv | Install | python 3 | venv | tools3
+  ignore_erros: yes
+  shell: " . $HOME/.bashrc && \
+          $HOME/.pyenv/libexec/pyenv virtualenv 3.7.3 tools3"

@@ -1,0 +1,45 @@
+- name: pyenv | Install | python 3 | venv | tools3 | pip
+  shell: " . $HOME/.bashrc && \
+           . $HOME/.pyenv/versions/tools3/bin/activate && \
+          pip install --upgrade pip && \
+          pip install -U youtube-dl mps-youtube gnucash-to-beancount rows speedtest-cli fast.com \
+          "
+- name: pyenv | Install | python 3 | venv | neovim3 | pip
+  shell: " . /home/morais/.bashrc && \
+           . $HOME/.pyenv/versions/neovim3/bin/activate && \
+          pip install -U neovim flake8 jedi autopep8 pep8 pyflakes isort yapf && \
+          ln -s `pyenv which flake8` ~/.config/bin/flake8 \
+          "
+
+- name: pyenv | Install | python 3 | venv | jupyter3 | pip
+  shell: " . /home/morais/.bashrc && \
+           . $HOME/.pyenv/versions/bin/jupyter3/bin/activate && \
+          pip install -U jupyter environment_kernels && \
+          python -m ipykernel install --user && \
+          jupyter notebook --generate-config \
+          "
+
+- name: pyenv | Install | python 2 | venv | ipython2 | pip
+  shell: " . /home/morais/.bashrc && \
+           . $HOME/.pyenv/versions/bin/ipython2/bin/activate && \
+          pip install -U ipykernel && \
+          python -m ipykernel install --user \
+          "
+
+- name: pyenv | Install | python 2 | venv | tools2 | pip
+  shell: " . /home/morais/.bashrc && \
+           . $HOME/.pyenv/versions/bin/tools2/bin/activate && \
+          pip install -U rename s3cmd fabric mercurial ansible \
+          "
+
+- name: pyenv | Install | python 2 | venv | neovim2 | pip
+  shell: " . /home/morais/.bashrc && \
+          PYTHON_CONFIGURE_OPTS='--enable-shared' $HOME/.pyenv/libexec/pyenv virtualenv 2.7.16 neovim2 && \
+          $HOME/.pyenv/libexec/pyenv activate neovim2 && \
+          pip install -U neovim && \
+          $HOME/.pyenv/libexec/pyenv deactivate \
+          "
+
+- name: pyenv | global
+  shell: " . /home/morais/.bashrc && \
+          $HOME/.pyenv/libexec/pyenv global 3.7.3 2.7.16 jupyter3 ipython2 tools3 tools2 neovim3 neovim2"
